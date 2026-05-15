@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { validate } from 'uuid';
 
 const subscriptionSchema = mongoose.Schema({
     name: {
@@ -39,8 +40,56 @@ const subscriptionSchema = mongoose.Schema({
     },
     startDate: {
         type: Date,
-        required: true, vali
+        required: true, 
+        validate: {
+            valodator:  (value) => value <= new Date(),
+            message: 'Start date must be in the past',
+        }
+    },
+    renewalDate: {
+        type: Date,
+        required: true, 
+        validate: {
+            valodator:  function (value) {
+                return value > this.startDate;
+        },
+            message: 'Renewal date date must be after the start date',
+        }
+    },
+
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+        index: true,
     }
 
 
 }, { timestamps: true });
+
+//auto calculate renewal date
+subscriptionSchema.pre('save', function(next){
+    if(!this.renewalDate) {
+        const renewalPeriods = {
+            daily: 1,
+            weekly: 7,
+            monthly: 30,
+            yearly: 365,
+        };
+
+        this.renewalDate = new Date(this.startDate);
+        this.renewalDate.setDate(this.renewalDate.getDate() + renewalPeriods[this.frequency]);
+    }
+
+    //auto update status if renewal date has passed
+    if(this.renewalDate < new Date()) {
+        this.status = 'expired';
+    }
+
+    next();
+})
+
+
+const Subscription = mongoose.model('Subscription', subscriptionSchema);
+
+export default Subscription;
