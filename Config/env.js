@@ -7,7 +7,7 @@ export  const {
      PORT, 
      NODE_ENV, 
      Mongo_URI,
-     JWT_SECRET,
-     JWT_EXPIRY    
+     JWT_SECRET, JWT_EXPIRY,
+     ARCJET_KEY, ARCJET_ENV
     } = process.env; 
 // export the PORT variable from the process.env object, which will be used to set the listening port for the server
