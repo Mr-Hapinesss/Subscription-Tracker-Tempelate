@@ -42,7 +42,7 @@ const subscriptionSchema = mongoose.Schema({
         type: Date,
         required: true, 
         validate: {
-            valodator:  (value) => value <= new Date(),
+            validator:  (value) => value <= new Date(),
             message: 'Start date must be in the past',
         }
     },
@@ -50,7 +50,7 @@ const subscriptionSchema = mongoose.Schema({
         type: Date,
         required: true, 
         validate: {
-            valodator:  function (value) {
+            validator:  function (value) {
                 return value > this.startDate;
         },
             message: 'Renewal date date must be after the start date',

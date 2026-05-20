@@ -4,7 +4,7 @@ import { PORT } from './Config/env.js';
 import connectDB from './database/db.js';
 import errorMiddleware from './Middleware/error.js';
 import cookieParser from 'cookie-parser';
-import arcjetMiddleware from './Middleware/arcjetMiddleware.js';
+// import arcjetMiddleware from './Middleware/arcjetMiddleware.js';
 import userRouter from './Routes/userRoutes.js';
 import authRouter from './Routes/authRoutes.js';
 import subscriptionRouter from './Routes/subscriptionRoutes.js';
@@ -13,13 +13,13 @@ import cors from 'cors';
 const app = express();
 
 //built-in muddlewares
-app.use(express.json);
+app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 // Other middlewares
 app.use(cookieParser());
 app.use(cors());
-app.use(arcjetMiddleware);
+// app.use(arcjetMiddleware);
 
 // Routes
 app.use('/api/v1/auth', authRouter);
