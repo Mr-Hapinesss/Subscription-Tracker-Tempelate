@@ -1,5 +1,4 @@
 // importing dependencies
-
 import express from 'express';
 import { PORT } from './Config/env.js';
 import connectDB from './database/db.js';
@@ -9,6 +8,7 @@ import arcjetMiddleware from './Middleware/arcjetMiddleware.js';
 import userRouter from './Routes/userRoutes.js';
 import authRouter from './Routes/authRoutes.js';
 import subscriptionRouter from './Routes/subscriptionRoutes.js';
+import cors from 'cors';
 
 const app = express();
 
@@ -18,6 +18,7 @@ app.use(express.urlencoded({extended: false}));
 
 // Other middlewares
 app.use(cookieParser());
+app.use(cors());
 app.use(arcjetMiddleware);
 
 // Routes
